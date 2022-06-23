@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
+use App\Models\Category;
+use App\Models\Medicine;
+use Faker\Provider\Medical;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BannerController extends Controller
+class MedicineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,8 @@ class BannerController extends Controller
     public function index()
     {
         try {
-            $banners = Banner::latest()->get(['banner_id','title', 'image', 'status']);
-            return view('admin.modules.banner.index', compact('banners'));
+            $medicines = Medicine::query()->get();
+            return view('admin.modules.medicine.index', compact('medicines'));
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -31,7 +33,8 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view('admin.modules.banner.createOrUpdate');
+        $categories = Category::query()->Active()->get(['category_id', 'name']);
+        return view('admin.modules.medicine.createOrUpdate', compact('categories'));
     }
 
     /**
@@ -42,20 +45,21 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = Banner::query()->Validation($request->all());
+        $validated = Medicine::query()->Validation($request->all());
         if($validated){
             try{
                 DB::beginTransaction();
-                $image = Banner::query()->Image($request);
-                $banner = Banner::create([
-                    'title' => $request->title,
+                $medicine = Medicine::create([
+                    'name' => $request->name,
+                    'generic' => $request->generic,
                     'body' => $request->body,
-                    'image' => $image
+                    'company' => $request->company,
+                    'category_id' => $request->category_id
                 ]);
 
-                if (!empty($banner)) {
+                if (!empty($medicine)) {
                     DB::commit();
-                    return redirect()->route('admin.banner.index')->with('success','banner Created successfully!');
+                    return redirect()->route('admin.medicine.index')->with('success','medicine Created successfully!');
                 }
                 throw new \Exception('Invalid About Information');
             }catch(\Exception $ex){
@@ -73,12 +77,8 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        try {
-            $show = Banner::query()->FindId($id);
-            return view('admin.modules.banner.show', compact('show'));
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        $show = Medicine::query()->FindId($id);
+        return view('admin.modules.medicine.show', compact('show'));
     }
 
     /**
@@ -90,8 +90,9 @@ class BannerController extends Controller
     public function edit($id)
     {
         try {
-            $edit = Banner::query()->FindId($id);
-            return view('admin.modules.banner.createOrUpdate', compact('edit'));
+            $edit = Medicine::query()->FindId($id);
+            $categories = Category::query()->Active()->get(['category_id', 'name']);
+            return view('admin.modules.medicine.createOrUpdate', compact('edit', 'categories'));
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -106,26 +107,22 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = Banner::query()->Validation($request->all());
+        $validated = Medicine::query()->Validation($request->all());
         if($validated){
             try{
                 DB::beginTransaction();
-                $banner = Banner::query()->FindId($id);
-                $reqImage = $request->image;
-                if($reqImage){
-                    $image = Banner::query()->Image($request);
-                }else{
-                    $bannerImage = $banner->image;
-                }
-                $bannerU = $banner->update([
-                    'title' => $request->title,
+                $medicine = Medicine::query()->FindId($id);
+                $medicineU = $medicine->update([
+                    'name' => $request->name,
+                    'generic' => $request->generic,
                     'body' => $request->body,
-                    'image' => $reqImage ? $image : $bannerImage,
+                    'company' => $request->company,
+                    'category_id' => $request->category_id
                 ]);
 
-                if (!empty($bannerU)) {
+                if (!empty($medicineU)) {
                     DB::commit();
-                    return redirect()->route('admin.banner.index')->with('success','banner Created successfully!');
+                    return redirect()->route('admin.medicine.index')->with('success','medicine Created successfully!');
                 }
                 throw new \Exception('Invalid About Information');
             }catch(\Exception $ex){
@@ -135,17 +132,11 @@ class BannerController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
-            Banner::query()->FindId($id)->delete();
-            return redirect()->route('admin.banner.index')->with('success','Banner Deleted Successfully!');
+            Medicine::query()->FindId($id)->delete();
+            return redirect()->route('admin.medicine.index')->with('success','Medicine Deleted Successfully!');
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -154,9 +145,9 @@ class BannerController extends Controller
     public function status($id)
     {
         try {
-            $banner = Banner::query()->FindID($id); //self trait
-            Banner::query()->Status($banner); // crud trait
-            return redirect()->route('admin.banner.index')->with('warning','Banner Status Change successfully!');
+            $medicine = Medicine::query()->FindID($id); //self trait
+            Medicine::query()->Status($medicine); // crud trait
+            return redirect()->route('admin.medicine.index')->with('warning','Medicine Status Change successfully!');
         } catch (\Throwable $th) {
             throw $th;
         }

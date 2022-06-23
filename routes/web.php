@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MedicineController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,8 @@ Route::group(["as"=>'admin.', "prefix"=>'admin', "middleware"=>['auth','admin']]
     /*category */
     Route::resource('category', CategoryController::class);
     Route::get('category/status/{id}', [CategoryController::class, 'status'])->name('category.status');
+
+     /*medidine */
+     Route::resource('medicine', MedicineController::class);
+     Route::get('medicine/status/{id}', [MedicineController::class, 'status'])->name('medicine.status');
 });

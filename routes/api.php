@@ -31,4 +31,4 @@ Route::middleware('auth:api')->group(function () {
 
 //no auth api
 Route::get('/category/list', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-Route::get('/banner/list', [App\Http\Controllers\Admin\BannerController::class, 'index']);
+Route::get('/banner/list', [App\Http\Controllers\api\BannerController::class, 'index']);
