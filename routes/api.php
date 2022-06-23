@@ -30,6 +30,9 @@ Route::middleware('auth:api')->group(function () {
 });
 
 //no auth api
-Route::get('/category/list', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-Route::get('/banner/list', [App\Http\Controllers\api\BannerController::class, 'index']);
-Route::get('/medicine/list', [App\Http\Controllers\api\MedicineController::class, 'index']);
+Route::group(['middleware' => ['cors']], function () {
+    Route::get('/category/list', [App\Http\Controllers\Api\CategoryController::class, 'index']);
+    Route::get('/banner/list', [App\Http\Controllers\api\BannerController::class, 'index']);
+    Route::get('/medicine/list', [App\Http\Controllers\api\MedicineController::class, 'index']);
+});
+
