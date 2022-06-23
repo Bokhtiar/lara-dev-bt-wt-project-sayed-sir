@@ -27,6 +27,8 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [App\Http\Controllers\Auth\ApiAuthController::class, 'logout'])->name('logout.api');
     Route::get('/user/profile', [App\Http\Controllers\Auth\ApiAuthController::class, 'userProfile']);
-    Route::get('/banner/list', [App\Http\Controllers\Admin\BannerController::class, 'index']);
 });
 
+//no auth api
+Route::get('/category/list', [App\Http\Controllers\Api\CategoryController::class, 'index']);
+Route::get('/banner/list', [App\Http\Controllers\Admin\BannerController::class, 'index']);
