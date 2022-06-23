@@ -49,12 +49,14 @@ class MedicineController extends Controller
         if($validated){
             try{
                 DB::beginTransaction();
+                $cat_name = Category::query()->FindId($request->category_id);
                 $medicine = Medicine::create([
                     'name' => $request->name,
                     'generic' => $request->generic,
                     'body' => $request->body,
                     'company' => $request->company,
-                    'category_id' => $request->category_id
+                    'category_id' => $request->category_id,
+                    'category_name' => $cat_name->name
                 ]);
 
                 if (!empty($medicine)) {
@@ -112,12 +114,14 @@ class MedicineController extends Controller
             try{
                 DB::beginTransaction();
                 $medicine = Medicine::query()->FindId($id);
+                $cat_name = Category::query()->FindId($request->category_id);
                 $medicineU = $medicine->update([
                     'name' => $request->name,
                     'generic' => $request->generic,
                     'body' => $request->body,
                     'company' => $request->company,
-                    'category_id' => $request->category_id
+                    'category_id' => $request->category_id,
+                    'category_name' => $cat_name
                 ]);
 
                 if (!empty($medicineU)) {

@@ -18,6 +18,7 @@ class CreateMedicinesTable extends Migration
             $table->string('name')->require();
             $table->string('generic')->require();
             $table->integer('category_id')->require();
+            $table->string('category_name')->require();
             $table->longText('body')->require();
             $table->string('company')->require();
             $table->tinyInteger('status')->default(0);

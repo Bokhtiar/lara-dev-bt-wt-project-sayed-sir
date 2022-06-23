@@ -20,6 +20,7 @@ class Medicine extends Model
     protected $fillable = [
         'medicine_id',
         'category_id',
+        'category_name',
         'name',
         'generic',
         'body',
