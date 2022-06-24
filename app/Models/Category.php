@@ -26,7 +26,6 @@ class Category extends Model
         return Validator::make($request, [
             'name' => 'string | required | max:15 | min:3',
         ])->validate();
-
     }
 
     public function scopeImage($value, $request){
@@ -35,7 +34,7 @@ class Category extends Model
             $image_name=Str::random(20);
             $ext=strtolower($image->getClientOriginalExtension());
             $image_full_name=$image_name.'.'.$ext;
-            $upload_path='category/image/';
+            $upload_path='public/category/image/';
             $image_url=$upload_path.$image_full_name;
             $success=$image->move($upload_path,$image_full_name);
                 if ($success) {
@@ -43,7 +42,6 @@ class Category extends Model
                     }
                 }
     }
-
 
     public function scopeFindId($q, $id)
     {

@@ -32,7 +32,13 @@ Route::middleware('auth:api')->group(function () {
 //no auth api
 Route::group(['middleware' => ['cors']], function () {
     Route::get('/category/list', [App\Http\Controllers\Api\CategoryController::class, 'index']);
-    Route::get('/banner/list', [App\Http\Controllers\api\BannerController::class, 'index']);
-    Route::get('/medicine/list', [App\Http\Controllers\api\MedicineController::class, 'index']);
+    Route::get('/banner/list', [App\Http\Controllers\Api\BannerController::class, 'index']);
+    Route::get('/medicine/list', [App\Http\Controllers\Api\MedicineController::class, 'index']);
+    /* geo location */
+    Route::get('/division/list', [App\Http\Controllers\Api\GeoLocationController::class, 'division']);
+    Route::get('/district/list', [App\Http\Controllers\Api\GeoLocationController::class, 'district']);
+    Route::get('/thana/list', [App\Http\Controllers\Api\GeoLocationController::class, 'thana']);
+    Route::get('/union/list', [App\Http\Controllers\Api\GeoLocationController::class, 'union']);
+
 });
 

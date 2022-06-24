@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MedicineController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,14 @@ Route::group(["as"=>'admin.', "prefix"=>'admin', "middleware"=>['auth','admin']]
      /*medidine */
      Route::resource('medicine', MedicineController::class);
      Route::get('medicine/status/{id}', [MedicineController::class, 'status'])->name('medicine.status');
+});
+
+
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    return "Cache is cleared";
 });
