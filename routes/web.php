@@ -49,7 +49,7 @@ Route::group(["as"=>'admin.', "prefix"=>'admin', "middleware"=>['auth','admin']]
 
     /*Product */
     Route::resource('product', ProductController::class);
-    Route::get('product/status/{id}', [MedicineController::class, 'status'])->name('medicine.status');
+    Route::get('product/status/{id}', [ProductController::class, 'status'])->name('product.status');
 });
 
 

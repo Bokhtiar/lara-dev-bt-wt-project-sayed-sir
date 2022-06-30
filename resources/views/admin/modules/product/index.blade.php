@@ -41,49 +41,50 @@
                                 <tr>
                                     <th scope="col">SL</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Company</th>
+                                    <th scope="col">Sku</th>
+                                    <th scope="col">Sell Price</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($medicines as $item)
+                                @forelse ($products as $item)
                                     <tr>
                                         <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
 
-                                        <td>{{ $item->company }}</td>
+                                        <td>
+                                            @php
+
+                                                $collection = collect([
+                                                $item->sku
+                                                ]);
+                                                echo 'Sku Name:';echo $collection->implode('name', ','); echo '<br>';
+                                                echo 'Sku price:';echo $collection->implode('price', ',');
+                                            @endphp
+                                        </td>
+                                        <td>{{ $item->sell_price }}</td>
 
                                         <td>
                                             @if ($item->status == 1)
-                                                <a class="btn btn-sm btn-success" href="@route('admin.medicine.status', $item->medicine_id)"><i
+                                                <a class="btn btn-sm btn-success" href="@route('admin.product.status', $item->product_id)"><i
                                                         class="bi bi-check-circle"></i></a>
                                             @else
-                                                <a class="btn btn-warning btn-sm" href="@route('admin.medicine.status', $item->medicine_id)"><i
+                                                <a class="btn btn-warning btn-sm" href="@route('admin.product.status', $item->product_id)"><i
                                                         class="bi bi-exclamation-triangle"></i></a>
                                             @endif
                                         </td>
                                         <td class="form-inline">
-                                            <a class="btn btn-sm btn-info text-light" href="@route('admin.medicine.show', $item->medicine_id)"> <i
+                                            <a class="btn btn-sm btn-info text-light" href="@route('admin.product.show', $item->product_id)"> <i
                                                     class="ri-eye-fill"></i></a>
-                                            <a class="btn btn-sm btn-primary" href="@route('admin.medicine.edit', $item->medicine_id)"> <i
+                                            <a class="btn btn-sm btn-primary" href="@route('admin.product.edit', $item->product_id)"> <i
                                                     class="ri-edit-box-fill"></i></a>
-                                            <form method="POST" action="@route('admin.medicine.destroy',$item->medicine_id)" class="mt-1">
+                                            <form method="POST" action="@route('admin.product.destroy',$item->product_id)" class="mt-1">
                                                 @csrf
                                                 @method('Delete')
                                                 <button class="btn btn-sm btn-danger" type="submit"> <i
                                                     class="ri-delete-bin-6-fill"></i></button>
                                             </form>
-{{--
-                                        @php
-
-                                                $collection = collect([
-                                                $item->sku
-                                                ]);
-                                                dd("20"==$collection->implode('price', ','));
-                                                echo $collection->implode('price', ',');
-                                            @endphp --}}
-
                                         </td>
                                     </tr>
                                 @empty

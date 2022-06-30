@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::latest()->get(['product_id', 'name', 'sku', 'sell_price', 'status']);
         return view('admin.modules.product.index', compact('products'));
     }
 
@@ -112,5 +112,16 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function status($id)
+    {
+        try {
+            $product = Product::query()->FindID($id); //self trait
+            Product::query()->Status($product); // crud trait
+            return redirect()->route('admin.product.index')->with('warning','Product Status Change successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
