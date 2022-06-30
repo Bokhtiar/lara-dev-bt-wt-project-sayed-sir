@@ -39,6 +39,6 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('/district/list', [App\Http\Controllers\Api\GeoLocationController::class, 'district']);
     Route::get('/thana/list', [App\Http\Controllers\Api\GeoLocationController::class, 'thana']);
     Route::get('/union/list', [App\Http\Controllers\Api\GeoLocationController::class, 'union']);
-
+    
 });
 
