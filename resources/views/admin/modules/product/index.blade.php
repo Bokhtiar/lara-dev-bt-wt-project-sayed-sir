@@ -33,7 +33,7 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Medicine Table  <a class="btn btn-sm btn-success" href="@route('admin.medicine.create')"> <i class="ri-add-box-line"></i> </a>  </h5>
+                        <h5 class="card-title">Medicine Table  <a class="btn btn-sm btn-success" href="@route('admin.product.create')"> <i class="ri-add-box-line"></i> </a>  </h5>
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
@@ -41,7 +41,6 @@
                                 <tr>
                                     <th scope="col">SL</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Sku</th>
                                     <th scope="col">Sell Price</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
@@ -53,17 +52,8 @@
                                         <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
 
-                                        <td>
-                                            @php
-
-                                                $collection = collect([
-                                                $item->sku
-                                                ]);
-                                                echo 'Sku Name:';echo $collection->implode('name', ','); echo '<br>';
-                                                echo 'Sku price:';echo $collection->implode('price', ',');
-                                            @endphp
-                                        </td>
-                                        <td>{{ $item->sell_price }}</td>
+                                        
+                                        <td>{{ $item->sell_price }}TK</td>
 
                                         <td>
                                             @if ($item->status == 1)
@@ -88,7 +78,7 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <h2 class="bg-danger text-light text-center">Medicine Is empty</h2>
+                                    <h2 class="bg-danger text-light text-center">Product Is empty</h2>
                                 @endforelse
                             </tbody>
                         </table>

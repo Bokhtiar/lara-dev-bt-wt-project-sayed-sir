@@ -76,7 +76,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $show = Product::find($id);
+            return view('admin.modules.product.show', compact('show'));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
@@ -87,7 +92,14 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $edit = Product::find($id);
+            $categories = Category::query()->Active()->get(['category_id', 'name']);
+        return view('admin.modules.product.createOrUpdate', compact('categories', 'edit'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+        
     }
 
     /**
@@ -99,7 +111,40 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = Product::query()->Validation($request->all());
+        if($validated){
+            try{
+                DB::beginTransaction();
+                $product = Product::find($id);
+                $reqImage = $request->image;
+                
+                if($reqImage){
+                    $newimage = Product::query()->Image($request);
+                }else{
+                    $images = $product->images;
+                }
+
+                $productU = $product->update([
+                    'name' => $request->name,
+                    'category_id' => $request->category_id,
+                    'images' => $reqImage ? json_encode($newimage) : $images,
+                    'generic' => $request->generic,
+                    'body' => $request->body,
+                    'company' => $request->company,
+                    'sell_price' => $request->sell_price,
+                    'discount_percentage' => $request->discount_percentage,
+                    'sku' => $request->sku
+                ]);
+                if (!empty($productU)) {
+                    DB::commit();
+                    return redirect()->route('admin.product.index')->with('success','product Created successfully!');
+                }
+                throw new \Exception('Invalid About Information');
+            }catch(\Exception $ex){
+                return back()->withError($ex->getMessage());
+                DB::rollBack();
+            }
+        }
     }
 
     /**

@@ -22,12 +22,23 @@
         </div>
         <div class="card-body">
             <div class="row my-3">
-                <div class="col-sm-12 col-md-5 col-lg-5 text-center">
+                <div class="col-sm-12 col-md-5 col-lg-5">
                    <h3 class="text-center">Medicine Info</h3>
                    <p>
                        <span> <b>Medicine Name :</b> {{ $show->name }} </span> <br>
-                       <span> <b>Medicine Category :</b> {{ $show->category ? $show->category->name : "" }} </span>
-                   </p>
+                       <span> <b>Medicine Category :</b> {{ $show->category ? $show->category->name : ""}} </span>
+                       <h4>Product Sku:</h4>
+                        @foreach ($show->sku as $s)
+                            @if ($s['title'] != null)
+                            <span>
+                                <strong>Title:</strong>{{ $s['title'] }} <br>
+                                <strong>Price:</strong>{{ $s['price'] }} <br>
+                                <strong>Descount Price:</strong>{{ $s['discount_price'] }} <br>
+                            </span> <br>
+                            @endif
+                        @endforeach
+                    
+                    </p>
                 </div>
                 <div class="col-sm-12 col-md-7 col-lg-7">
                     <h3>Company Info</h3>

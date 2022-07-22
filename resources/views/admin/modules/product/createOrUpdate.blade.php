@@ -77,7 +77,7 @@
 
                 <div class="col-md-6 col-lg-6 my-2">
                     <label for="" class="form-label">Product Discount % </label>
-                    <input required type="text" class="form-control" name="discount_percentage" value="{{ @$edit->discount_percentage }}"
+                    <input type="text" class="form-control" name="discount_percentage" value="{{ @$edit->discount_percentage }}"
                         placeholder="type here Product Discount %">
                 </div>
 
@@ -87,7 +87,7 @@
                     @isset($edit)
                     <div class="my-2">
                         <label for="">Already Image Seleted</label>
-                        <img src="{{ asset($edit->images) }}" height="40px" width="40px" alt="">
+                        
                     </div>
                     @endisset
                 </div>
@@ -104,8 +104,8 @@
                 </div>
 
                 <div class="col-md-12 col-lg-12 my-2">
-                    <label for="" class="form-label">Product Company <span class="text-danger">*</span></label>
-                    <input required type="text" class="form-control" name="company" value="{{ @$edit->company }}"
+                    <label for="" class="form-label">Product Company </label>
+                    <input  type="text" class="form-control" name="company" value="{{ @$edit->company }}"
                         placeholder="type here Product Company">
                 </div>
 

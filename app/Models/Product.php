@@ -18,7 +18,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'category',
+        'category_id',
         'images',
         'generic',
         'body',
@@ -73,4 +73,8 @@ class Product extends Model
         $this->attributes['sku'] = json_encode($sku);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
 }
