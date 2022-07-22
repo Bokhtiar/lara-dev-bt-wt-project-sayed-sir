@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-6 my-2">
-                    <label for="" class="form-label">Product Discount % <span class="text-danger">*</span></label>
+                    <label for="" class="form-label">Product Discount % </label>
                     <input required type="text" class="form-control" name="discount_percentage" value="{{ @$edit->discount_percentage }}"
                         placeholder="type here Product Discount %">
                 </div>
@@ -94,7 +94,7 @@
 
 
                 <div class="col-md-6 col-lg-6 my-2">
-                   <label class="form-label" for="">Select Category</label>
+                   <label class="form-label" for="">Select Category <span class="text-danger">*</span></label>
                    <select class="form-control" name="category_id" id="">
                        <option value="">Select Category</option>
                        @foreach ($categories as $cat)
@@ -109,19 +109,43 @@
                         placeholder="type here Product Company">
                 </div>
 
-                <div class="col-md-4 col-lg-4 col-sm-4 my-2">
-                    <label for="">Sku List</label>
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-4 my-2">
-                    <input type="text" placeholder="Sku Name" name="sku[name]" class="form-control" id="">
-                </div>
-                <div class="col-md-4 col-lg-4 col-sm-4 my-2">
-                    <input type="number" placeholder="Sku Price" name="sku[price]" class="form-control" id="">
+
+                <div class="form-group">
+                    <label for="sku">Product Sku</label>
+                    <div class="row">
+                        
+                        <div class="col-md-4">
+                            title:
+                        </div>
+                        <div class="col-md-4">
+                            price:
+                        </div>
+                        <div class="col-md-4">
+                            discount_price:
+                        </div>
+                    </div>
+                    @for ($i=0; $i <= 4; $i++)
+                    <div class="row">
+                        
+                        <input type="text" hidden name="sku[{{ $i }}][id]" class="form-control" value="{{$i}}">
+                        <div class="col-md-4">
+                            <input type="text" name="sku[{{ $i }}][title]" class="form-control" value="{{ @$edit->sku[$i]['title'] ?? '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="sku[{{ $i }}][price]" class="form-control" value="{{ @$edit->sku[$i]['price'] ?? '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="sku[{{ $i }}][discount_price]" class="form-control" value="{{ @$edit->sku[$i]['discount_price'] ?? '' }}">
+                        </div>
+                    </div>
+                    @endfor
                 </div>
 
-                <div class="col-md-12 col-lg-12">
+
+
+                <div class="col-md-12 col-lg-12 my-2">
                     <label for="">Product Body <span class="text-danger">*</span></label>
-                    <textarea name="body" class="tinymce-editor">
+                    <textarea name="body" class="form-control" cols="10" rows="4">
                        {!! @$edit->body !!}
                       </textarea><!-- End TinyMCE Editor -->
                 </div>

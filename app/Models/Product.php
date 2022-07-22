@@ -56,7 +56,21 @@ class Product extends Model
     }
 
     protected $casts = [
-        'sku' => 'array',
-        'category' => 'array'
+        'sku' => 'array'
     ];
+
+
+    public function setSkuAttribute($value)
+    {
+        $sku = [];
+
+        foreach ($value as $array_item) {
+            if (!is_null($array_item['id'])) {
+                $sku[] = $array_item;
+            }
+        }
+
+        $this->attributes['sku'] = json_encode($sku);
+    }
+
 }

@@ -44,11 +44,10 @@ class ProductController extends Controller
         if($validated){
             try{
                 DB::beginTransaction();
-                $category = Category::query()->FindId($request->category_id);
                 $images = Product::query()->Images($request);
                 $product = Product::create([
                     'name' => $request->name,
-                    'category' => ['name'=>$category->name,'category_id'=> $category->category_id],
+                    'category' => $request->category_id,
                     'images' => json_encode($images),
                     'generic' => $request->generic,
                     'body' => $request->body,
